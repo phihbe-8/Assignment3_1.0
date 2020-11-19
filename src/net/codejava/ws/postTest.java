@@ -14,4 +14,6 @@ public class postTest {
 	public Response test() {
 		return Response.ok("Hej").build();
 	}
+	
+	
 }

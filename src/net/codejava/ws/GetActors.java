@@ -5,9 +5,16 @@ public class GetActors {
 	private int id;
 	private String fname;
 	private String lname;
+	private String kurskod;
 //	private String address;
 //	private String course_code;
 
+	public String getKurskod() {
+		return kurskod;
+	}
+	public void setKurskod(String kurskod) {
+		this.kurskod = kurskod;
+	}
 	public int getId() {
 		return id;
 	}

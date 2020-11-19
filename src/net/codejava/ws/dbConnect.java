@@ -9,7 +9,7 @@ public class dbConnect {
 	
 	private static String dbhost = "jdbc:mysql://localhost:3306/soa?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=CET";
 	private static String username = "root";
-	private static String password = "100Recrec";
+	private static String password = "ozzyozzy2";
 	private static Connection conn;
 	
 	@SuppressWarnings("finally")
