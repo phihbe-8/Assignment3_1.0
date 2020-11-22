@@ -35,6 +35,7 @@ public class App {
 				stdObject.setId(Integer.valueOf(results.getString("id")));
 				stdObject.setFName(results.getString("fname"));
 				stdObject.setLName(results.getString("lname"));
+				stdObject.setKurskod(results.getString("kurskod"));
 				//stdObject.setAddress(results.getString("Address"));
 				//stdObject.setCourse_code(results.getString("course_code"));
 				

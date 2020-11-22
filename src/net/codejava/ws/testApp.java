@@ -96,6 +96,7 @@ public class testApp {
 				stdObject.setId(Integer.valueOf(results.getString("id")));
 				stdObject.setFName(results.getString("fname"));
 				stdObject.setLName(results.getString("lname"));
+				stdObject.setKurskod(results.getString("kurskod"));
 				// stdObject.setAddress(results.getString("Address"));
 				// stdObject.setCourse_code(results.getString("course_code"));
 
@@ -139,8 +140,8 @@ public class testApp {
 
 	// När man ska söka fritt på kurskod, sätt String kurskod som parameter. Använd
 	// sedan den i ResponseMessage som Path parameter
-	public String selectKurs() {
-		String sql_select = "Select * From actors where kurskod = 'D0031N'";
+	public String selectKurs(String kurskod) {
+		String sql_select = "Select * From actors where kurskod = '"+ kurskod +"'";
 		String JSONOutput = "";
 		List<GetActors> studentsList = new ArrayList<GetActors>();
 

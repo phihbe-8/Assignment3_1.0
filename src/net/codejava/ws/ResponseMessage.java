@@ -32,9 +32,9 @@ public class ResponseMessage {
 	
 
 	@GET
-	@Produces("application/json")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response Message() {	
-		String App = new App().testActors();
+		String App = new testApp().testActors();
 		return Response.ok(App).build();
 		}
 	
@@ -55,12 +55,12 @@ public class ResponseMessage {
 		
 		// hårdkodat för kurs D0031N, använd parametrar i metoden för att göra dynamisk
 		@GET
-		@Path("{kod}")
+		@Path("/kurskod/{kod}")
 		@Produces(MediaType.APPLICATION_JSON)
 		public Response getActorByKurskod(@PathParam("kod") String kurskod) {
 			String ac;
-			if(kurskod.equals("D0031N")) {
-			 ac = new testApp().selectKurs(); // fixa hårdkodning
+			if(!kurskod.equals(" ")) {
+			 ac = new testApp().selectKurs(kurskod); // fixa hårdkodning
 			}  else {
 				return Response.status(400).entity(("saknar parametrar")).build();
 			}

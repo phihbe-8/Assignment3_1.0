@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>JavaScript - read JSON from URL</title>
+<meta http-equiv="content type" content="text/html; charset=UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link rel="stylesheet" href ="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+<!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>-->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+	<div class="mypanel"></div>
+	<br>
+	<div id="app">{{ message }}</div>
+	<br>
+	
+	<div class="container" id="app-2">
+	<p>
+		<button v-on:click="loadData()">Ladda data</button>
+	</p>
+	<table>
+	<thead>
+	<tr>
+	<th scope="col">ID</th>
+	<th scope="col">Firstname</th>
+	<th scope="col">Lastname</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr v-for="user in users">
+	<td>{{user.id}}</td>
+	<td>{{user.fname}}</td>
+	<td>{{user.lname}}</td>
+	</tr>
+	</tbody>
+	</table>
+	</div>
+
+
+	<script>
+
+//      var url = 'http://localhost:8080/HelloREST/rest/response'
+     
+//     $.getJSON(url, function(data) {
+//         for (i = 0; i < data.length; i = i +1){
+//         	var text = 
+//         		`ID: ${data[0].id}<br>
+//         		FirstName: ${data[0].fname}<br>
+//                 LanstName: ${data[0].lname}<br>
+//                 ID: ${data[1].id}<br>
+//                 FirstName: ${data[1].fname}<br>
+//                 LastName: ${data[1].lname}<br>`
+//         }
+//         $(".mypanel").html(text);
+//                         });
+     
+     var app = new Vue({
+    	  el: '#app',
+    	  data: {
+    	    message: 'Hello Vue!'
+    	  }
+    	});
+     
+     var app2 = new Vue({
+    	 el: '#app-2',
+    	 data:{
+    		 users: []
+    	 },
+    	 methods: {
+    		 loadData: function(){
+    			 axios.get('http://localhost:8080/HelloREST/rest/response')
+    			 .then(response => {
+    				 this.users = response.data;
+    				 console.log(response);
+    			 })
+    			 .catch(error =>{
+    				 console.log(error);
+    			 })
+    		 }
+    	 }
+     });
+     
+     /* function setup(){
+ 	getJSON("http://localhost:8080/HelloREST/rest/response", gotData);
+ }
+ function gotData(data){
+ 	println(data);
+ 	getElementByClassName(".mypanel").html(data);
+ }*/
+
+ //fname lname id
+
+ //
+ 
+ //var url = 'http://api.open.notify.org/astros.json'
+ 
+ 
+ //var url = 'http://time.jsontest.com/'
+ //date time milliseconds_since_epoch
+    </script>
+
+</body>
+</html>
