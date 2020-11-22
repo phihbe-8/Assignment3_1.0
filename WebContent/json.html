@@ -16,6 +16,30 @@
 	<br>
 	<div id="app">{{ message }}</div>
 	<br>
+	<div class="row">
+			<div class="col">
+				<label>Kurskod</label> <select id="inputState" class="form-control">
+					<option selected>-</option>
+					<option value ="D0031N">D0031N</option>
+					<option value ="D0024E">D0024E</option>
+					<option>4</option>
+					<option>5</option>
+				</select>
+			</div>
+			<div class="col">
+				<label>Modul i Ladok</label> <select id="inputState"
+					class="form-control">
+					<option selected>-</option>
+					<option>1</option>
+					<option>2</option>
+					<option>3</option>
+					<option>4</option>
+					<option>5</option>
+				</select>
+			</div>
+			<div class="col"></div>
+		</div>
+		<br>
 	
 	<div class="container" id="app-2">
 	<p>
@@ -27,6 +51,8 @@
 	<th scope="col">ID</th>
 	<th scope="col">Firstname</th>
 	<th scope="col">Lastname</th>
+	<th scope="col">Kurskod</th>
+	<th scope="col">Betyg Canvas</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -34,6 +60,35 @@
 	<td>{{user.id}}</td>
 	<td>{{user.fname}}</td>
 	<td>{{user.lname}}</td>
+	<td>{{user.kurskod}}</td>
+	<td>{{user.betygCanvas}}</td>
+	</tr>
+	</tbody>
+	</table>
+	</div>
+	
+	<div class="container" id="app-3">
+	<p>
+		<button v-on:click="loadKursKod()">Ladda kurskod</button>
+	</p>
+
+	<table>
+	<thead>
+	<tr>
+	<th scope="col">ID</th>
+	<th scope="col">Firstname</th>
+	<th scope="col">Lastname</th>
+	<th scope="col">Kurskod</th>
+	<th scope="col">Betyg Canvas</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr v-for="user in users">
+	<td id ="id">{{user.id}}</td>
+	<td>{{user.fname}}</td>
+	<td>{{user.lname}}</td>
+	<td>{{user.kurskod}}</td>
+	<td>{{user.betygCanvas}}</td>
 	</tr>
 	</tbody>
 	</table>
@@ -41,8 +96,10 @@
 
 
 	<script>
+	var sel = document.getElementById("inputState");
+		
 
-//      var url = 'http://localhost:8080/HelloREST/rest/response'
+//     var url = 'http://localhost:8080/HelloREST/rest/response'
      
 //     $.getJSON(url, function(data) {
 //         for (i = 0; i < data.length; i = i +1){
@@ -72,6 +129,25 @@
     	 methods: {
     		 loadData: function(){
     			 axios.get('http://localhost:8080/HelloREST/rest/response')
+    			 .then(response => {
+    				 this.users = response.data;
+    				 console.log(response);
+    			 })
+    			 .catch(error =>{
+    				 console.log(error);
+    			 })
+    		 }
+    	 }
+     });
+     
+     var app3 = new Vue({
+    	 el: '#app-3',
+    	 data:{
+    		 users: []
+    	 },
+    	 methods: {
+    		 loadKursKod: function(){
+    			 axios.get('http://localhost:8080/HelloREST/rest/response/kurskod/' + sel.value)
     			 .then(response => {
     				 this.users = response.data;
     				 console.log(response);

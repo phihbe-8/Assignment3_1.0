@@ -42,7 +42,7 @@ public class ResponseMessage {
 		@POST
 		@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 		@Produces(MediaType.APPLICATION_JSON)
-		public Response newActorByForm(@FormParam("first") String fname, @FormParam("last") String lname)
+		public Response b(@FormParam("first") String fname, @FormParam("last") String lname)
 				throws URISyntaxException {
 	
 			if (!(fname.isEmpty()) && !(lname.isEmpty())) {
@@ -52,6 +52,22 @@ public class ResponseMessage {
 				return Response.status(400).entity(("saknar parametrar")).build();
 			}
 		}
+		
+		@POST
+		@Path("/Ladok/")
+		@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+		@Produces(MediaType.APPLICATION_JSON)
+		public Response ladok(@FormParam("id") int id, @FormParam("betyg") String betyg)
+				throws URISyntaxException {
+	
+			if (!(betyg.isEmpty())) {
+				String auto_id = new testApp().betygLadok(id,betyg);
+				return Response.created(URI.create("response/Ladok/" + auto_id)).build();
+			} else {
+				return Response.status(400).entity(("saknar parametrar")).build();
+			}
+		}
+		
 		
 		// hårdkodat för kurs D0031N, använd parametrar i metoden för att göra dynamisk
 		@GET

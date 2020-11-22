@@ -48,13 +48,14 @@
 			</div>
 			<div class="col"></div>
 		</div>
-		<div class="row"></div>
-		
-		<div class="container" id="app-2">
+	</div>
+	<div class="row"></div>
+
+	<div class="container" id="app-2">
 		<p>
-		<button v-on:click="loadData()">Ladda data</button>
-	</p>
-		<table>
+			<button v-on:click="loadData()">Ladda data</button>
+		</p>
+		<table class="table">
 			<thead>
 				<th scope="col"></th>
 				<th scope="col">Namn</th>
@@ -66,9 +67,16 @@
 			</thead>
 			<tbody>
 				<tr v-for="user in users">
-					<td>{{user.id}}</td>
-					<td>{{user.fname}}</td>
-					<td>{{user.lname}}</td>
+					<td><input type="checkbox"></td>
+					<td>{{user.fname}} {{user.lname}}</td>
+					<td>I databas</td>
+					<td><input class="form-control" type="date" value="yyyy-mm-dd"></td>
+					<td><select class="form-control"><option selected>-</option>
+							<option>U</option>
+							<option>G</option>
+							<option>VG</option></td>
+					<td>I databas</td>
+					<td>I databas</td>
 				</tr>
 			</tbody>
 		</table>

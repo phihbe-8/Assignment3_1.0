@@ -78,6 +78,8 @@ public class testApp {
 		}
 
 	}
+	
+	//----------
 
 	public String testActors() {
 		String sql_select = "Select * From actors";
@@ -97,6 +99,7 @@ public class testApp {
 				stdObject.setFName(results.getString("fname"));
 				stdObject.setLName(results.getString("lname"));
 				stdObject.setKurskod(results.getString("kurskod"));
+				stdObject.setBetygCanvas(results.getString("betygCanvas"));
 				// stdObject.setAddress(results.getString("Address"));
 				// stdObject.setCourse_code(results.getString("course_code"));
 
@@ -137,6 +140,22 @@ public class testApp {
 		return person;
 
 	}
+	
+	public String betygLadok(int id, String betyg) {
+		
+		String sql_select = "UPDATE actors SET betygLadok = '" + betyg + "' Where id = " + id +";";
+
+		try (Connection conn = dbConnect.createNewDBconnection()) {
+
+			stmt = conn.createStatement();
+			stmt.executeUpdate(sql_select);
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		}
+		return betyg;
+	}
 
 	// När man ska söka fritt på kurskod, sätt String kurskod som parameter. Använd
 	// sedan den i ResponseMessage som Path parameter
@@ -158,6 +177,7 @@ public class testApp {
 				stdObject.setFName(results.getString("fname"));
 				stdObject.setLName(results.getString("lname"));
 				stdObject.setKurskod(results.getString("kurskod"));
+				stdObject.setBetygCanvas(results.getString("betygCanvas"));
 				// stdObject.setAddress(results.getString("Address"));
 				// stdObject.setCourse_code(results.getString("course_code"));
 
@@ -192,6 +212,7 @@ public class testApp {
 				stdObject.setFName(results.getString("fname"));
 				stdObject.setLName(results.getString("lname"));
 				stdObject.setKurskod(results.getString("kurskod"));
+				stdObject.setBetygCanvas(results.getString("betygCanvas"));
 			}
 
 			ObjectMapper mapper = new ObjectMapper();
