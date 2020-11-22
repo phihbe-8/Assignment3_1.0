@@ -2,11 +2,13 @@
 <html lang="en">
 <head>
 <title>JavaScript - read JSON from URL</title>
-<meta http-equiv="content type" content="text/html; charset=UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<link rel="stylesheet" href ="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+<meta http-equiv="content type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
 <!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>-->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
@@ -17,102 +19,107 @@
 	<div id="app">{{ message }}</div>
 	<br>
 	<div class="row">
-			<div class="col">
-				<label>Kurskod</label> <select id="inputState" class="form-control">
-					<option selected>-</option>
-					<option value ="D0031N">D0031N</option>
-					<option value ="D0024E">D0024E</option>
-					<option>4</option>
-					<option>5</option>
-				</select>
-			</div>
-			<div class="col">
-				<label>Modul i Ladok</label> <select id="inputState"
-					class="form-control">
-					<option selected>-</option>
-					<option>1</option>
-					<option>2</option>
-					<option>3</option>
-					<option>4</option>
-					<option>5</option>
-				</select>
-			</div>
-			<div class="col"></div>
+		<div class="col">
+			<label>Kurskod</label> <select id="inputState" class="form-control">
+				<option selected>-</option>
+				<option value="D0031N">D0031N</option>
+				<option value="D0024E">D0024E</option>
+				<option>4</option>
+				<option>5</option>
+			</select>
 		</div>
-		<br>
-	
-	<div class="container" id="app-2">
-	<p>
-		<button v-on:click="loadData()">Ladda data</button>
-	</p>
-	<table>
-	<thead>
-	<tr>
-	<th scope="col">ID</th>
-	<th scope="col">Firstname</th>
-	<th scope="col">Lastname</th>
-	<th scope="col">Kurskod</th>
-	<th scope="col">Betyg Canvas</th>
-	</tr>
-	</thead>
-	<tbody>
-	<tr v-for="user in users">
-	<td>{{user.id}}</td>
-	<td>{{user.fname}}</td>
-	<td>{{user.lname}}</td>
-	<td>{{user.kurskod}}</td>
-	<td>{{user.betygCanvas}}</td>
-	</tr>
-	</tbody>
-	</table>
+		<div class="col">
+			<label>Modul i Ladok</label> <select id="inputState"
+				class="form-control">
+				<option selected>-</option>
+				<option>1</option>
+				<option>2</option>
+				<option>3</option>
+				<option>4</option>
+				<option>5</option>
+			</select>
+		</div>
+		<div class="col">
+			<label>Betyg</label><select class="form-control" id="betygLadok"><option
+						selected>-</option>
+					<option value="U">U</option>
+					<option value="G">G</option>
+					<option value="VG">VG</option></select>
+		</div>
 	</div>
-	
-	<div class="container" id="app-3">
-	<p>
-		<button v-on:click="loadKursKod()">Ladda kurskod</button>
-	</p>
+	<br>
 
-	<table>
-	<thead>
-	<tr>
-	<th scope="col">ID</th>
-	<th scope="col">Firstname</th>
-	<th scope="col">Lastname</th>
-	<th scope="col">Kurskod</th>
-	<th scope="col">Betyg Canvas</th>
-	</tr>
-	</thead>
-	<tbody>
-	<tr v-for="user in users">
-	<td id ="id">{{user.id}}</td>
-	<td>{{user.fname}}</td>
-	<td>{{user.lname}}</td>
-	<td>{{user.kurskod}}</td>
-	<td>{{user.betygCanvas}}</td>
-	</tr>
-	</tbody>
-	</table>
+	<div class="container" id="app-2">
+		<p>
+			<button v-on:click="loadData()">Ladda data</button>
+		</p>
+
+		<p>
+			<button v-on:click="loadKursKod()">Ladda kurskod</button>
+		</p>
+		<p>
+			<button v-on:click="setBetygLadok()">Satt Betyg</button>
+		</p>
+		<input type="button" value="Get Selected" v-on:click="GetSelected()" />
+		<table>
+			<thead>
+				<tr>
+					<th scope="col">ID</th>
+					<th scope="col">Firstname</th>
+					<th scope="col">Lastname</th>
+					<th scope="col">Kurskod</th>
+					<th scope="col">Betyg Canvas</th>
+					<th scope="col">Betyg i Ladok</th>
+				</tr>
+			</thead>
+			<tbody id="Table1">
+				<tr v-for="user in users">
+				<td><input type="checkbox"></td>
+					<td id="id">{{user.id}}</td>
+					<td>{{user.fname}}</td>
+					<td>{{user.lname}}</td>
+					<td>{{user.kurskod}}</td>
+					<td>{{user.betygCanvas}}</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
+
+	<!-- 	<div class="container" id="app-3"> -->
+	<!-- 	<p> -->
+	<!-- 		<button v-on:click="loadKursKod()">Ladda kurskod</button> -->
+	<!-- 	</p> -->
+
+	<!-- 	<table> -->
+	<!-- 	<thead> -->
+	<!-- 	<tr> -->
+	<!-- 	<th scope="col">ID</th> -->
+	<!-- 	<th scope="col">Firstname</th> -->
+	<!-- 	<th scope="col">Lastname</th> -->
+	<!-- 	<th scope="col">Kurskod</th> -->
+	<!-- 	<th scope="col">Betyg Canvas</th> -->
+	<!-- 	</tr> -->
+	<!-- 	</thead> -->
+	<!-- 	<tbody> -->
+	<!-- 	<tr v-for="user in users"> -->
+	<!-- 	<td id ="id">{{user.id}}</td> -->
+	<!-- 	<td>{{user.fname}}</td> -->
+	<!-- 	<td>{{user.lname}}</td> -->
+	<!-- 	<td>{{user.kurskod}}</td> -->
+	<!-- 	<td>{{user.betygCanvas}}</td> -->
+	<!-- 	</tr> -->
+	<!-- 	</tbody> -->
+	<!-- 	</table> -->
+	<!-- 	</div> -->
 
 
 	<script>
 	var sel = document.getElementById("inputState");
-		
+	var selBet = document.getElementById("betygLadok");
+	var test = selBet.value;
+	
 
-//     var url = 'http://localhost:8080/HelloREST/rest/response'
-     
-//     $.getJSON(url, function(data) {
-//         for (i = 0; i < data.length; i = i +1){
-//         	var text = 
-//         		`ID: ${data[0].id}<br>
-//         		FirstName: ${data[0].fname}<br>
-//                 LanstName: ${data[0].lname}<br>
-//                 ID: ${data[1].id}<br>
-//                 FirstName: ${data[1].fname}<br>
-//                 LastName: ${data[1].lname}<br>`
-//         }
-//         $(".mypanel").html(text);
-//                         });
+
      
      var app = new Vue({
     	  el: '#app',
@@ -136,7 +143,74 @@
     			 .catch(error =>{
     				 console.log(error);
     			 })
-    		 }
+    		 },
+    	 loadKursKod: function(){
+			 axios.get('http://localhost:8080/HelloREST/rest/response/kurskod/' + sel.value)
+			 .then(response => {
+				 this.users = response.data;
+				 console.log(response);
+			 })
+			 .catch(error =>{
+				 console.log(error);
+			 })
+		 },
+		 setBetygLadok: function(){
+			 //Reference the Table.
+		        var grid = document.getElementById("Table1");
+		 
+//		        Reference the CheckBoxes in Table.
+		        var checkBoxes = grid.getElementsByTagName("INPUT");
+		        var message;
+		 
+		        //Loop through the CheckBoxes.
+		        for (var i = 0; i < checkBoxes.length; i++) {
+		            if (checkBoxes[i].checked) {
+		                var row = checkBoxes[i].parentNode.parentNode;
+		                message = row.cells[1].innerHTML;
+//		                message += "   " + row.cells[2].innerHTML;
+//		                message += "   " + row.cells[3].innerHTML;
+//		                message += "   " + row.cells[4].innerHTML;
+//		                message += "\n";
+		            }
+		        }
+		 
+		        //Display selected Row data in Alert Box.
+		        alert(message + " " + selBet.value + " " + sel.value);
+		        
+			 axios.post('http://localhost:8080/HelloREST/rest/response/Ladok/' + message +'/'+ selBet.value)
+			 .then(response => {
+				 this.users = response.data;
+				 console.log(response);
+			 })
+			 .catch(error =>{
+				 console.log(error);
+			 })
+		 },
+		 GetSelected: function() {
+		        //Reference the Table.
+		        var grid = document.getElementById("Table1");
+		 
+// 		        Reference the CheckBoxes in Table.
+		        var checkBoxes = grid.getElementsByTagName("INPUT");
+		        var message = "Id: ";
+		 
+		        //Loop through the CheckBoxes.
+		        for (var i = 0; i < checkBoxes.length; i++) {
+		            if (checkBoxes[i].checked) {
+		                var row = checkBoxes[i].parentNode.parentNode;
+		                message += row.cells[1].innerHTML;
+// 		                message += "   " + row.cells[2].innerHTML;
+// 		                message += "   " + row.cells[3].innerHTML;
+// 		                message += "   " + row.cells[4].innerHTML;
+// 		                message += "\n";
+		            }
+		        }
+		 
+		        //Display selected Row data in Alert Box.
+		        alert(message +" "+ test);
+		    }
+		 
+		 
     	 }
      });
      

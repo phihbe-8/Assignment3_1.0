@@ -54,14 +54,14 @@ public class ResponseMessage {
 		}
 		
 		@POST
-		@Path("/Ladok/")
-		@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+		@Path("/Ladok/{id}/{betyg}")
+		//@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 		@Produces(MediaType.APPLICATION_JSON)
-		public Response ladok(@FormParam("id") int id, @FormParam("betyg") String betyg)
+		public Response ladok(@PathParam("id") int id, @PathParam("betyg") String betyg)
 				throws URISyntaxException {
 	
 			if (!(betyg.isEmpty())) {
-				String auto_id = new testApp().betygLadok(id,betyg);
+				int auto_id = new testApp().betygLadok(id,betyg);
 				return Response.created(URI.create("response/Ladok/" + auto_id)).build();
 			} else {
 				return Response.status(400).entity(("saknar parametrar")).build();
@@ -95,12 +95,13 @@ public class ResponseMessage {
 //		// ------- POST med OBJECT --------
 	//
 //		@POST
+//		@Path("/Ladok/")
 //		@Consumes(MediaType.APPLICATION_JSON)
 //		@Produces(MediaType.APPLICATION_JSON)
-//		public Response newActor(Person p) throws URISyntaxException {
+//		public Response newActor(GetActors p) throws URISyntaxException {
 //	
-//			if (!(p.getFname().isEmpty()) && !(p.getLname().isEmpty())) {
-//				Person auto_id = new testApp().createActors(p.getFname(), p.getLname());
+//			if (!(p.getBetygLadok().isEmpty())) {
+//				GetActors auto_id = new testApp().betygLadok2(p.getId(),p.getBetygLadok());
 //				return Response.created(URI.create("response/" + auto_id)).build();
 //			} else {
 //				return Response.status(400).entity(("saknar parametrar")).build();

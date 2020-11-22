@@ -100,6 +100,7 @@ public class testApp {
 				stdObject.setLName(results.getString("lname"));
 				stdObject.setKurskod(results.getString("kurskod"));
 				stdObject.setBetygCanvas(results.getString("betygCanvas"));
+				stdObject.setBetygLadok(results.getString("betygLadok"));
 				// stdObject.setAddress(results.getString("Address"));
 				// stdObject.setCourse_code(results.getString("course_code"));
 
@@ -140,10 +141,11 @@ public class testApp {
 		return person;
 
 	}
-	
-	public String betygLadok(int id, String betyg) {
+	// för post med formparam
+	public int betygLadok(int id, String betyg) {
 		
 		String sql_select = "UPDATE actors SET betygLadok = '" + betyg + "' Where id = " + id +";";
+		String test = id + betyg;
 
 		try (Connection conn = dbConnect.createNewDBconnection()) {
 
@@ -154,7 +156,27 @@ public class testApp {
 			e.printStackTrace();
 
 		}
-		return betyg;
+		return id;
+	}
+	
+	//för post med object
+public GetActors betygLadok2(int id, String betyg) {
+		
+		String sql_select = "UPDATE actors SET betygLadok = '" + betyg + "' Where id = " + id +";";
+		GetActors stdObject = new GetActors();
+		stdObject.setId(id);
+		stdObject.setBetygLadok(betyg);
+
+		try (Connection conn = dbConnect.createNewDBconnection()) {
+
+			stmt = conn.createStatement();
+			stmt.executeUpdate(sql_select);
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		}
+		return stdObject;
 	}
 
 	// När man ska söka fritt på kurskod, sätt String kurskod som parameter. Använd
@@ -178,6 +200,7 @@ public class testApp {
 				stdObject.setLName(results.getString("lname"));
 				stdObject.setKurskod(results.getString("kurskod"));
 				stdObject.setBetygCanvas(results.getString("betygCanvas"));
+				stdObject.setBetygLadok(results.getString("betygLadok"));
 				// stdObject.setAddress(results.getString("Address"));
 				// stdObject.setCourse_code(results.getString("course_code"));
 
@@ -213,6 +236,7 @@ public class testApp {
 				stdObject.setLName(results.getString("lname"));
 				stdObject.setKurskod(results.getString("kurskod"));
 				stdObject.setBetygCanvas(results.getString("betygCanvas"));
+				stdObject.setBetygLadok(results.getString("betygLadok"));
 			}
 
 			ObjectMapper mapper = new ObjectMapper();
