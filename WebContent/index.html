@@ -28,9 +28,8 @@
 			<div class="col">
 				<label>Kurskod</label> <select id="inputState" class="form-control">
 					<option selected>-</option>
-					<option>1</option>
-					<option>2</option>
-					<option>3</option>
+					<option value="D0031N">D0031N</option>
+					<option value="D0024E">D0024E</option>
 					<option>4</option>
 					<option>5</option>
 				</select>
@@ -46,6 +45,13 @@
 					<option>5</option>
 				</select>
 			</div>
+			<div class="col">
+				<label>Betyg</label><select class="form-control" id="betygLadok"><option
+						selected>-</option>
+					<option value="U">U</option>
+					<option value="G">G</option>
+					<option value="VG">VG</option></select>
+			</div>
 			<div class="col"></div>
 		</div>
 	</div>
@@ -57,6 +63,12 @@
 		</p>
 		<p>
 			<button v-on:click="showBetyg()">Visa Ladok betyg</button>
+		</p>
+		<p>
+			<button v-on:click="setBetygLadok()">Satt Betyg</button>
+		</p>
+		<p>
+			<button v-on:click="loadKursKod()">Ladda kurskod</button>
 		</p>
 		<table class="table">
 			<thead>
@@ -71,8 +83,7 @@
 			</thead>
 			<tbody id="Table1">
 				<tr v-for="user in users">
-					<td><input type="checkbox" id="{{user.id}}"
-						value="{{user.id}}" v-model="checkedNames"></td>
+					<td><input type="checkbox"></td>
 					<td id="id">{{user.id}}</td>
 					<td>{{user.fname}} {{user.lname}}</td>
 					<td>{{user.betygCanvas}}</td>
@@ -90,6 +101,8 @@
 	<button type="button" v-on:click="loadData()">Ladda data</button>
 	<input type="button" value="Get Selected" onclick="GetSelected()" />
 	<script>
+	var sel = document.getElementById("inputState");
+	var selBet = document.getElementById("betygLadok");
 	var app2 = new Vue({
    	 el: '#app-2',
    	 data:{
@@ -106,6 +119,16 @@
    				 console.log(error);
    			 })
    		 },
+   		loadKursKod: function(){
+			 axios.get('http://localhost:8080/HelloREST/rest/response/kurskod/' + sel.value)
+			 .then(response => {
+				 this.users = response.data;
+				 console.log(response);
+			 })
+			 .catch(error =>{
+				 console.log(error);
+			 })
+		 },
    		 
    		showBetyg: function(){
    		 var cell = getElementById("showBetyg");
@@ -115,7 +138,35 @@
 //       	  betyg.type = "select";
 //       	  cell.appendChild(betyg);
    			}
-   		}
+   		},
+   		setBetygLadok: function(){
+			 //Reference the Table.
+		        var grid = document.getElementById("Table1");
+		 
+//		        Reference the CheckBoxes in Table.
+		        var checkBoxes = grid.getElementsByTagName("INPUT");
+		        var message;
+		 
+		        //Loop through the CheckBoxes.
+		        for (var i = 0; i < checkBoxes.length; i++) {
+		            if (checkBoxes[i].checked) {
+		                var row = checkBoxes[i].parentNode.parentNode;
+		                message = row.cells[1].innerHTML;
+		            }
+		        }
+		 
+		        //Display selected Row data in Alert Box.
+		        alert(message + " " + selBet.value + " " + sel.value);
+		        
+			 axios.post('http://localhost:8080/HelloREST/rest/response/Ladok/' + message +'/'+ selBet.value)
+			 .then(response => {
+				 this.users = response.data;
+				 console.log(response);
+			 })
+			 .catch(error =>{
+				 console.log(error);
+			 })
+		 }
    	 }
     });
 	

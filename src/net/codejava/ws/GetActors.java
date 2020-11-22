@@ -53,19 +53,4 @@ public class GetActors {
 	}
 		
 
-//	public String getAddress() {
-//		return address;
-//	}
-//	public void setAddress(String address) {
-//		this.address = address;
-//	}
-		
-
-//	public String getCourse_code() {
-//		return course_code;
-//	}
-//	public void setCourse_code(String course_code) {
-//		this.course_code = course_code;
-//	}
-
 }

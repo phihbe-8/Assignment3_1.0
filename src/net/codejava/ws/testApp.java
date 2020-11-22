@@ -56,15 +56,13 @@ public class testApp {
 
 			while (results.next()) {
 
-				GetActors stdObject = new GetActors();
+				GetActors actor = new GetActors();
 
-				stdObject.setId(Integer.valueOf(results.getString("id")));
-				stdObject.setFName(results.getString("fname"));
-				stdObject.setLName(results.getString("lname"));
-				// stdObject.setAddress(results.getString("Address"));
-				// stdObject.setCourse_code(results.getString("course_code"));
+				actor.setId(Integer.valueOf(results.getString("id")));
+				actor.setFName(results.getString("fname"));
+				actor.setLName(results.getString("lname"));
 
-				studentsList.add(stdObject);
+				studentsList.add(actor);
 			}
 
 			ObjectMapper mapper = new ObjectMapper();
@@ -93,18 +91,16 @@ public class testApp {
 
 			while (results.next()) {
 
-				GetActors stdObject = new GetActors();
+				GetActors actor = new GetActors();
 
-				stdObject.setId(Integer.valueOf(results.getString("id")));
-				stdObject.setFName(results.getString("fname"));
-				stdObject.setLName(results.getString("lname"));
-				stdObject.setKurskod(results.getString("kurskod"));
-				stdObject.setBetygCanvas(results.getString("betygCanvas"));
-				stdObject.setBetygLadok(results.getString("betygLadok"));
-				// stdObject.setAddress(results.getString("Address"));
-				// stdObject.setCourse_code(results.getString("course_code"));
+				actor.setId(Integer.valueOf(results.getString("id")));
+				actor.setFName(results.getString("fname"));
+				actor.setLName(results.getString("lname"));
+				actor.setKurskod(results.getString("kurskod"));
+				actor.setBetygCanvas(results.getString("betygCanvas"));
+				actor.setBetygLadok(results.getString("betygLadok"));
 
-				studentsList.add(stdObject);
+				studentsList.add(actor);
 			}
 
 			ObjectMapper mapper = new ObjectMapper();
@@ -163,9 +159,9 @@ public class testApp {
 public GetActors betygLadok2(int id, String betyg) {
 		
 		String sql_select = "UPDATE actors SET betygLadok = '" + betyg + "' Where id = " + id +";";
-		GetActors stdObject = new GetActors();
-		stdObject.setId(id);
-		stdObject.setBetygLadok(betyg);
+		GetActors actor = new GetActors();
+		actor.setId(id);
+		actor.setBetygLadok(betyg);
 
 		try (Connection conn = dbConnect.createNewDBconnection()) {
 
@@ -176,7 +172,7 @@ public GetActors betygLadok2(int id, String betyg) {
 			e.printStackTrace();
 
 		}
-		return stdObject;
+		return actor;
 	}
 
 	// När man ska söka fritt på kurskod, sätt String kurskod som parameter. Använd
@@ -193,18 +189,18 @@ public GetActors betygLadok2(int id, String betyg) {
 
 			while (results.next()) {
 
-				GetActors stdObject = new GetActors();
+				GetActors actor = new GetActors();
 
-				stdObject.setId(Integer.valueOf(results.getString("id")));
-				stdObject.setFName(results.getString("fname"));
-				stdObject.setLName(results.getString("lname"));
-				stdObject.setKurskod(results.getString("kurskod"));
-				stdObject.setBetygCanvas(results.getString("betygCanvas"));
-				stdObject.setBetygLadok(results.getString("betygLadok"));
-				// stdObject.setAddress(results.getString("Address"));
-				// stdObject.setCourse_code(results.getString("course_code"));
+				actor.setId(Integer.valueOf(results.getString("id")));
+				actor.setFName(results.getString("fname"));
+				actor.setLName(results.getString("lname"));
+				actor.setKurskod(results.getString("kurskod"));
+				actor.setBetygCanvas(results.getString("betygCanvas"));
+				actor.setBetygLadok(results.getString("betygLadok"));
+				// actor.setAddress(results.getString("Address"));
+				// actor.setCourse_code(results.getString("course_code"));
 
-				studentsList.add(stdObject);
+				studentsList.add(actor);
 			}
 
 			ObjectMapper mapper = new ObjectMapper();
@@ -224,23 +220,23 @@ public GetActors betygLadok2(int id, String betyg) {
 
 		String JSONOutput = ""; // för att få resultatet i console som String, blir skevt annars
 		String sql_select2 = "Select * from actors WHERE id = " + actorId + ";";
-		GetActors stdObject = new GetActors();
+		GetActors actor = new GetActors();
 
 		try (Connection conn = dbConnect.createNewDBconnection()) {
 
 			stmt = conn.createStatement();
 			results = stmt.executeQuery(sql_select2);
 			while (results.next()) {
-				stdObject.setId(Integer.valueOf(results.getString("id")));
-				stdObject.setFName(results.getString("fname"));
-				stdObject.setLName(results.getString("lname"));
-				stdObject.setKurskod(results.getString("kurskod"));
-				stdObject.setBetygCanvas(results.getString("betygCanvas"));
-				stdObject.setBetygLadok(results.getString("betygLadok"));
+				actor.setId(Integer.valueOf(results.getString("id")));
+				actor.setFName(results.getString("fname"));
+				actor.setLName(results.getString("lname"));
+				actor.setKurskod(results.getString("kurskod"));
+				actor.setBetygCanvas(results.getString("betygCanvas"));
+				actor.setBetygLadok(results.getString("betygLadok"));
 			}
 
 			ObjectMapper mapper = new ObjectMapper();
-			JSONOutput = mapper.writeValueAsString(stdObject);
+			JSONOutput = mapper.writeValueAsString(actor);
 			System.out.println(JSONOutput);
 
 		} catch (SQLException e) {
@@ -248,7 +244,7 @@ public GetActors betygLadok2(int id, String betyg) {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		return stdObject;
+		return actor;
 
 	}
 
