@@ -139,11 +139,12 @@ public class testApp {
 
 	}
 	// för post med formparam
-	public int betygLadok(int id, String betyg, int modId) {
+	public int betygLadok(int id, String betyg, String modId, String kurskod) {
 		
-		String sql_select = "UPDATE modulebetyg SET betyg = '" + betyg + "' Where actor_id IN (Select id from actors WHERE id =" + id +") "
-				+ "and module_id IN(SELECT id FROM moduler where id =" + modId + ");";
-		String test = id + betyg;
+		String sql_select = "UPDATE modulebetyg m INNER JOIN actors a ON m.actor_id=a.id JOIN moduler mr ON mr.id =m.module_id"
+				+ " SET m.betyg = '" + betyg + "' WHERE m.actor_id ="
+				+"(SELECT id from actors WHERE id = " + id + ") AND m.module_id =(SELECT id from moduler WHERE modName = '" + modId + "' AND kurskod = '" + kurskod+ "');";
+		//String test = id + betyg;
 
 		try (Connection conn = dbConnect.createNewDBconnection()) {
 
@@ -191,9 +192,9 @@ public String visabetyg(String name) {
 	// När man ska söka fritt på kurskod, sätt String kurskod som parameter. Använd
 	// sedan den i ResponseMessage som Path parameter
 	public String selectKurs(String kurskod, String modName) {
-		String sql_select = "Select * From actors where kurskod = '"+ kurskod +"'";
+		//String sql_select = "Select * From actors where kurskod = '"+ kurskod +"'";
 		String sql_select2 = "SELECT * FROM modulebetyg WHERE module_id IN(SELECT id FROM moduler WHERE name ='" + modName + "');";
-		String sql_select3 = "SELECT actors.*, modulebetyg.betyg, moduler.modName FROM actors JOIN modulebetyg ON actors.id = modulebetyg.actor_id " 
+		String sql_select3 = "SELECT actors.*, modulebetyg.betyg, moduler.kurskod, moduler.modName FROM actors JOIN modulebetyg ON actors.id = modulebetyg.actor_id " 
 				+ " JOIN moduler ON modulebetyg.module_id = moduler.id WHERE module_id IN(SELECT id FROM moduler "
 				+ " WHERE modName ='"+ modName +"' AND kurskod = '"+ kurskod +"');";
 		String JSONOutput = "";

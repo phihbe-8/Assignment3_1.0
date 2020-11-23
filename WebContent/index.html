@@ -118,7 +118,7 @@
 					<td>{{user.betygCanvas}}</td>
 					<td><input class="form-control" type="date" value="yyyy-mm-dd"></td>
 					<td>{{user.betygLadok}}</td>
-					<td>I databas</td>
+					<td>{{user.kurskod}}</td>
 					<td>{{user.module}}</td>
 				</tr>
 			</tbody>
@@ -219,7 +219,7 @@
 		        console.log(selMod.value);
 		        alert(message + " " + selBet.value + " " + sel.value + " " + selMod.value);
 		        
-			 axios.post('http://localhost:8080/HelloREST/rest/response/Ladok/' + message +'/'+ selBet.value)
+			 axios.post('http://localhost:8080/HelloREST/rest/response/Ladok/' + message +'/'+ selBet.value + '/' + selMod.value + '/' + sel.value)
 			 .then(response => {
 				 this.users = response.data;
 				 console.log(response);

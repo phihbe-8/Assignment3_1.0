@@ -54,14 +54,14 @@ public class ResponseMessage {
 		}
 		
 		@POST
-		@Path("/Ladok/{id}/{betyg}/{modId}")
+		@Path("/Ladok/{id}/{betyg}/{modId}/{kurskod}")
 		//@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 		@Produces(MediaType.APPLICATION_JSON)
-		public Response ladok(@PathParam("id") int id, @PathParam("betyg") String betyg, @PathParam("modId") int modId)
+		public Response ladok(@PathParam("id") int id, @PathParam("betyg") String betyg, @PathParam("modId") String modId, @PathParam("kurskod") String kurskod)
 				throws URISyntaxException {
 	
 			if (!(betyg.isEmpty())) {
-				int auto_id = new testApp().betygLadok(id,betyg,modId);
+			int auto_id = new testApp().betygLadok(id,betyg,modId,kurskod);
 				return Response.created(URI.create("response/Ladok/" + auto_id)).build();
 			} else {
 				return Response.status(400).entity(("saknar parametrar")).build();
