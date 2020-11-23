@@ -8,10 +8,17 @@ public class GetActors {
 	private String kurskod;
 	private String betygCanvas;
 	private String betygLadok;
+	private String module;
 //	private String address;
 //	private String course_code;
 	
 
+	public String getModule() {
+		return module;
+	}
+	public void setModule(String module) {
+		this.module = module;
+	}
 	public String getBetygLadok() {
 		return betygLadok;
 	}

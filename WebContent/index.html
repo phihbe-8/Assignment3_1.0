@@ -23,9 +23,40 @@
 <title>Document</title>
 </head>
 <body style="margin: 30px;">
-	<div class="container">
-		<div class="row">
-			<div class="col">
+<!-- 	<div  class="container"> -->
+<!-- 		<div class="row"> -->
+<!-- 			<div v-for="module in modules" class="col"> -->
+<!-- 				<label>Kurskod</label> <select id="inputState" class="form-control"> -->
+<!-- 					<option selected>-</option> -->
+<!-- 					<option value="D0031N">D0031N</option> -->
+<!-- 					<option value="D0024E">D0024E</option> -->
+<!-- 					<option>4</option> -->
+<!-- 					<option>5</option> -->
+<!-- 				</select> -->
+<!-- 			</div> -->
+<!-- 			<div class="col"> -->
+<!-- 				<label>Modul i Ladok</label> <select id="inputState" -->
+<!-- 					class="form-control"> -->
+<!-- 					<option selected>-</option> -->
+<!-- 					<option v-for="module of modules">{{module.name}}</option> -->
+<!-- 					<option>{{module.name}}</option> -->
+<!-- 					<option>3</option> -->
+<!-- 					<option>4</option> -->
+<!-- 					<option>5</option> -->
+<!-- 				</select> -->
+<!-- 			</div> -->
+<!-- 			<div class="col"> -->
+<!-- 				<label>Betyg</label><select class="form-control" id="betygLadok"><option -->
+<!-- 						selected>-</option> -->
+<!-- 					<option value="U">U</option> -->
+<!-- 					<option value="G">G</option> -->
+<!-- 					<option value="VG">VG</option></select> -->
+<!-- 			</div> -->
+<!-- 			<div class="col"></div> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
+<!-- 	<div class="row"></div> -->
+	<div class="col">
 				<label>Kurskod</label> <select id="inputState" class="form-control">
 					<option selected>-</option>
 					<option value="D0031N">D0031N</option>
@@ -35,16 +66,14 @@
 				</select>
 			</div>
 			<div class="col">
-				<label>Modul i Ladok</label> <select id="inputState"
+				<label>Modul i Ladok</label> <select id="modulId"
 					class="form-control">
 					<option selected>-</option>
-					<option>1</option>
-					<option>2</option>
-					<option>3</option>
-					<option>4</option>
-					<option>5</option>
+					<option value ="uppgift1">Uppgift1</option>
+					<option value ="uppgift2">Uppgift2</option>
+					<option value ="tenta">Tenta</option>
 				</select>
-			</div>
+				</div>
 			<div class="col">
 				<label>Betyg</label><select class="form-control" id="betygLadok"><option
 						selected>-</option>
@@ -52,12 +81,9 @@
 					<option value="G">G</option>
 					<option value="VG">VG</option></select>
 			</div>
-			<div class="col"></div>
-		</div>
-	</div>
-	<div class="row"></div>
-
 	<div class="container" id="app-2">
+			<div class="col"></div>
+
 		<p>
 			<button v-on:click="loadData()">Ladda data</button>
 		</p>
@@ -69,6 +95,9 @@
 		</p>
 		<p>
 			<button v-on:click="loadKursKod()">Ladda kurskod</button>
+		</p>
+		<p>
+			<button v-on:click="loadModule()">Ladda module</button>
 		</p>
 		<table class="table">
 			<thead>
@@ -84,29 +113,48 @@
 			<tbody id="Table1">
 				<tr v-for="user in users">
 					<td><input type="checkbox"></td>
-					<td id="id">{{user.id}}</td>
+					<td>{{user.id}}</td>
 					<td>{{user.fname}} {{user.lname}}</td>
 					<td>{{user.betygCanvas}}</td>
 					<td><input class="form-control" type="date" value="yyyy-mm-dd"></td>
-					<td id="showBetyg">{{user.betygLadok}}</td>
+					<td>{{user.betygLadok}}</td>
 					<td>I databas</td>
-					<td>I databas</td>
+					<td>{{user.module}}</td>
 				</tr>
 			</tbody>
 		</table>
-		<span>Checked ID: {{ checkedNames }}</span>
 	</div>
-
-	<div id="mypanel" class="mypanel"></div>
-	<button type="button" v-on:click="loadData()">Ladda data</button>
-	<input type="button" value="Get Selected" onclick="GetSelected()" />
+	
 	<script>
+	
 	var sel = document.getElementById("inputState");
 	var selBet = document.getElementById("betygLadok");
+	var selMod = document.getElementById("modulId");
+	
+// 	var app3 = new Vue({
+// 	   	 el: '#app-3',
+// 	   	 data:{
+// 		     modules: []
+// 	   	 },
+// 	   	 methods: {
+// 	   		loadModule: function(){
+// 				 axios.get('http://localhost:8080/HelloREST/rest/response/module/' + sel.value)
+// 				 .then(response => {
+// 					 this.modules = response.data;
+// 					 console.log(response);
+// 				 })
+// 				 .catch(error =>{
+// 					 console.log(error);
+// 				 })
+// 			 },
+// 	   	 }
+// 	   	});
+	
 	var app2 = new Vue({
    	 el: '#app-2',
    	 data:{
-   		 users: []
+   		 users: [],
+   		 modules: [],
    	 },
    	 methods: {
    		 loadData: function(){
@@ -118,9 +166,20 @@
    			 .catch(error =>{
    				 console.log(error);
    			 })
-   		 },
+   		 }, 
+   		loadModule: function(){
+			 axios.get('http://localhost:8080/HelloREST/rest/response/modbetyg/' + selMod.value)
+			 .then(response => {
+				 this.modules = response.data;
+				 console.log(response);
+			 })
+			 .catch(error =>{
+				 console.log(error);
+			 })
+		 },
+   		 
    		loadKursKod: function(){
-			 axios.get('http://localhost:8080/HelloREST/rest/response/kurskod/' + sel.value)
+			 axios.get('http://localhost:8080/HelloREST/rest/response/kurskod/' + sel.value +'/'+ selMod.value)
 			 .then(response => {
 				 this.users = response.data;
 				 console.log(response);
@@ -146,6 +205,7 @@
 //		        Reference the CheckBoxes in Table.
 		        var checkBoxes = grid.getElementsByTagName("INPUT");
 		        var message;
+		        var mod = selMod.options[selMod.selectedIndex].text;
 		 
 		        //Loop through the CheckBoxes.
 		        for (var i = 0; i < checkBoxes.length; i++) {
@@ -156,7 +216,8 @@
 		        }
 		 
 		        //Display selected Row data in Alert Box.
-		        alert(message + " " + selBet.value + " " + sel.value);
+		        console.log(selMod.value);
+		        alert(message + " " + selBet.value + " " + sel.value + " " + selMod.value);
 		        
 			 axios.post('http://localhost:8080/HelloREST/rest/response/Ladok/' + message +'/'+ selBet.value)
 			 .then(response => {
@@ -166,33 +227,11 @@
 			 .catch(error =>{
 				 console.log(error);
 			 })
-		 }
+		 },
+		 
    	 }
     });
 	
-	function GetSelected() {
-        //Reference the Table.
-        var grid = document.getElementById("Table1");
- 
-        //Reference the CheckBoxes in Table.
-        var checkBoxes = grid.getElementsByTagName("INPUT");
-        var message = "Id Name                  Country\n";
- 
-        //Loop through the CheckBoxes.
-        for (var i = 0; i < checkBoxes.length; i++) {
-            if (checkBoxes[i].checked) {
-                var row = checkBoxes[i].parentNode.parentNode;
-                message += row.cells[1].innerHTML;
-                message += "   " + row.cells[2].innerHTML;
-                message += "   " + row.cells[3].innerHTML;
-                message += "   " + row.cells[4].innerHTML;
-                message += "\n";
-            }
-        }
- 
-        //Display selected Row data in Alert Box.
-        alert(message);
-    }
 	</script>
 </body>
 </html>

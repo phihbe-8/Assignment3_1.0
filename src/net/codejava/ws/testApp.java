@@ -15,6 +15,7 @@ public class testApp {
 
 	private static Statement stmt;
 	private static ResultSet results;
+	private static ResultSet results2;
 
 	public static void main(String[] args) {
 
@@ -138,9 +139,10 @@ public class testApp {
 
 	}
 	// för post med formparam
-	public int betygLadok(int id, String betyg) {
+	public int betygLadok(int id, String betyg, int modId) {
 		
-		String sql_select = "UPDATE actors SET betygLadok = '" + betyg + "' Where id = " + id +";";
+		String sql_select = "UPDATE modulebetyg SET betyg = '" + betyg + "' Where actor_id IN (Select id from actors WHERE id =" + id +") "
+				+ "and module_id IN(SELECT id FROM moduler where id =" + modId + ");";
 		String test = id + betyg;
 
 		try (Connection conn = dbConnect.createNewDBconnection()) {
@@ -156,36 +158,51 @@ public class testApp {
 	}
 	
 	//för post med object
-public GetActors betygLadok2(int id, String betyg) {
+public String visabetyg(String name) {
 		
-		String sql_select = "UPDATE actors SET betygLadok = '" + betyg + "' Where id = " + id +";";
-		GetActors actor = new GetActors();
-		actor.setId(id);
-		actor.setBetygLadok(betyg);
+		String sql_select = "SELECT * FROM modulebetyg WHERE module_id IN(SELECT id FROM moduler WHERE name ='" + name + "');";
+		List<Modules> moduler = new ArrayList<Modules>();
+		String JSONOutput= "";
 
 		try (Connection conn = dbConnect.createNewDBconnection()) {
 
 			stmt = conn.createStatement();
-			stmt.executeUpdate(sql_select);
-			conn.close();
+			results = stmt.executeQuery(sql_select);
+			
+			while (results.next()) {
+				Modules mod = new Modules();
+				//mod.setId(Integer.valueOf(results.getString("id")));
+				mod.setName(name);
+				mod.setBetyg(results.getString("betyg"));
+				moduler.add(mod);
+			}
+
+			ObjectMapper mapper = new ObjectMapper();
+			JSONOutput = mapper.writeValueAsString(moduler);
+			System.out.println(JSONOutput);
 		} catch (SQLException e) {
 			e.printStackTrace();
-
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
 		}
-		return actor;
+		return JSONOutput;
 	}
 
 	// När man ska söka fritt på kurskod, sätt String kurskod som parameter. Använd
 	// sedan den i ResponseMessage som Path parameter
-	public String selectKurs(String kurskod) {
+	public String selectKurs(String kurskod, String modName) {
 		String sql_select = "Select * From actors where kurskod = '"+ kurskod +"'";
+		String sql_select2 = "SELECT * FROM modulebetyg WHERE module_id IN(SELECT id FROM moduler WHERE name ='" + modName + "');";
+		String sql_select3 = "SELECT actors.*, modulebetyg.betyg, moduler.modName FROM actors JOIN modulebetyg ON actors.id = modulebetyg.actor_id " 
+				+ " JOIN moduler ON modulebetyg.module_id = moduler.id WHERE module_id IN(SELECT id FROM moduler "
+				+ " WHERE modName ='"+ modName +"' AND kurskod = '"+ kurskod +"');";
 		String JSONOutput = "";
 		List<GetActors> studentsList = new ArrayList<GetActors>();
 
 		try (Connection conn = dbConnect.createNewDBconnection()) {
 
 			stmt = conn.createStatement();
-			results = stmt.executeQuery(sql_select);
+			results = stmt.executeQuery(sql_select3);
 
 			while (results.next()) {
 
@@ -196,9 +213,8 @@ public GetActors betygLadok2(int id, String betyg) {
 				actor.setLName(results.getString("lname"));
 				actor.setKurskod(results.getString("kurskod"));
 				actor.setBetygCanvas(results.getString("betygCanvas"));
-				actor.setBetygLadok(results.getString("betygLadok"));
-				// actor.setAddress(results.getString("Address"));
-				// actor.setCourse_code(results.getString("course_code"));
+				actor.setBetygLadok(results.getString("betyg"));
+				actor.setModule(modName);
 
 				studentsList.add(actor);
 			}
@@ -245,6 +261,41 @@ public GetActors betygLadok2(int id, String betyg) {
 			e.printStackTrace();
 		}
 		return actor;
+
+	}
+	
+	public String selectModule(String kurskod) {
+		String sql_select = "Select * From moduler where kurskod = '"+ kurskod +"'";
+		String JSONOutput = "";
+		List<Modules> modulesList = new ArrayList<Modules>();
+
+		try (Connection conn = dbConnect.createNewDBconnection()) {
+
+			stmt = conn.createStatement();
+			results = stmt.executeQuery(sql_select);
+
+			while (results.next()) {
+
+				Modules modules = new Modules();
+
+				modules.setId(Integer.valueOf(results.getString("id")));
+				modules.setName(results.getString("name"));
+				modules.setKurskod(results.getString("kurskod"));
+
+
+				modulesList.add(modules);
+			}
+
+			ObjectMapper mapper = new ObjectMapper();
+			JSONOutput = mapper.writeValueAsString(modulesList);
+			System.out.println(JSONOutput);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return JSONOutput;
 
 	}
 
